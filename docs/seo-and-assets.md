@@ -57,14 +57,12 @@ Sem as envs `BUILT_IN_FORGE_API_URL`/`BUILT_IN_FORGE_API_KEY` no projeto da Verc
 responde `404 text/plain` para imagens não versionadas. Portanto, em hospedagem estática,
 **versionar as imagens é obrigatório** (não é apenas o caminho recomendado).
 
-Arquivos versionados em `client/public/manus-storage/` e referenciados por
-`IMAGES`/`GALLERY` (curadoria por heurísticas em 14/09/2026 — **pendente de
-validação visual**):
+Arquivos esperados hoje (ver `IMAGES`/`GALLERY`):
 
 ```
-010_b5a8dce61f.jpg   011_e81b49f75a.jpg   012_de756f330a.jpg
-013_ace2782c4c.webp  014_a5c60c8ae4.jpg    015_f8f47acbb6.jpg
-016_4ffd6edf28.jpg
+espaco_9d0dabd5.jpg   feed_03_ee62de48.jpg   feed_06_ff6a12d1.jpg
+feed_07_56672306.jpg  massagem_1086f446.jpg  mechas_fa72dfb6.jpg
+servicos_a483c6a1.jpg
 ```
 
 ### Checklist de imagens antes de publicar
