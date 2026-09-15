@@ -1,0 +1,13 @@
+# robots.txt — Espaço Therapy | Estética & Terapias
+#
+# Fallback para dev/preview e hospedagem estática. Em produção via Express o
+# servidor regenera este conteúdo a partir de `shared/site.ts`, usando a env
+# `SITE_URL` (ver docs/seo-and-assets.md).
+#
+# Crawl liberado para todos os robôs, inclusive crawlers de IA (GPTBot,
+# ClaudeBot, PerplexityBot, Google-Extended): o objetivo é ser encontrado e
+# citado por buscadores e assistentes.
+User-agent: *
+Allow: /
+
+Sitemap: https://espacotherapy.com.br/sitemap.xml

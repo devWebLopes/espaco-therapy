@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Sitemap do Espaço Therapy (site de página única).
+
+  Fallback para dev/preview e hospedagem estática. Em produção via Express o
+  arquivo é regenerado a partir de `shared/site.ts` com a env `SITE_URL`.
+  Atualize `CONTENT_LAST_MODIFIED` em `shared/site.ts` quando o conteúdo mudar.
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://espacotherapy.com.br/</loc>
+    <lastmod>2026-09-14</lastmod>
+  </url>
+</urlset>

@@ -1,0 +1,13 @@
+# Pasta das imagens do site (servidas em `/manus-storage/<arquivo>`).
+
+Coloque aqui os arquivos de imagem para que o build seja autossuficiente
+(recomendado: WebP/AVIF otimizados). Esta pasta é copiada para `dist/public`
+no build e servida diretamente pelo Express, com prioridade sobre o proxy.
+
+Enquanto os arquivos não forem versionados, o servidor usa o proxy
+`/manus-storage` (env `BUILT_IN_FORGE_API_URL` + `BUILT_IN_FORGE_API_KEY`).
+
+Arquivos esperados (ver `docs/seo-and-assets.md`):
+espaco_9d0dabd5.jpg · feed_03_ee62de48.jpg · feed_06_ff6a12d1.jpg ·
+feed_07_56672306.jpg · massagem_1086f446.jpg · mechas_fa72dfb6.jpg ·
+servicos_a483c6a1.jpg

@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#302b27" />
+    <meta name="color-scheme" content="light" />
+
+    <!--
+      Os tokens %SITE_*% são substituídos no build/dev pelo plugin de SEO do
+      `vite.config.ts`, usando `shared/site.ts` (ver docs/seo-and-assets.md).
+      O JSON-LD (negócio local + site + FAQ) é injetado pelo mesmo plugin.
+    -->
+    <title>%SITE_TITLE%</title>
+    <meta name="description" content="%SITE_DESCRIPTION%" />
+    <meta name="author" content="%SITE_NAME%" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <link rel="canonical" href="%SITE_URL%/" />
+
+    <!-- Open Graph / compartilhamento -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="%SITE_NAME%" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:title" content="%SITE_TITLE%" />
+    <meta property="og:description" content="%SITE_DESCRIPTION%" />
+    <meta property="og:url" content="%SITE_URL%/" />
+    <meta property="og:image" content="%SITE_OG_IMAGE%" />
+    <meta
+      property="og:image:alt"
+      content="Espaço Therapy — estética e terapias em São Leopoldo"
+    />
+
+    <!-- Twitter Card (usada também por outros mensageiros) -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="%SITE_TITLE%" />
+    <meta name="twitter:description" content="%SITE_DESCRIPTION%" />
+    <meta name="twitter:image" content="%SITE_OG_IMAGE%" />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=DM+Sans:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+    <!-- Analytics (Umami) é injetado no build quando VITE_ANALYTICS_ENDPOINT está definido. -->
+  </body>
+</html>
