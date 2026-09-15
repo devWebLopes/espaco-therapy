@@ -44,12 +44,27 @@ centralizado em [`../shared/site.ts`](../shared/site.ts):
    Esse era o bug P0-1: em produção, toda imagem caía no `app.get("*")` e
    retornava HTML, quebrando a página inteira.
 
-Arquivos esperados hoje (ver `IMAGES`/`GALLERY`):
+### Na hospedagem estática (Vercel)
+
+O servidor Express **não** roda na Vercel (ver `plans/plan-003-publicacao-vercel.md`), então
+o nível 2 é atendido pela Vercel Function `api/manus-storage/[...key].ts`, que usa a mesma
+`resolveStorageResponse` de [`../shared/storage.ts`](../shared/storage.ts). O `vercel.json`
+reescreve `/manus-storage/<arquivo>` para essa função — e, como a Vercel aplica as
+reescritas **depois** dos arquivos estáticos, um arquivo versionado continua tendo
+precedência.
+
+Sem as envs `BUILT_IN_FORGE_API_URL`/`BUILT_IN_FORGE_API_KEY` no projeto da Vercel, a função
+responde `404 text/plain` para imagens não versionadas. Portanto, em hospedagem estática,
+**versionar as imagens é obrigatório** (não é apenas o caminho recomendado).
+
+Arquivos versionados em `client/public/manus-storage/` e referenciados por
+`IMAGES`/`GALLERY` (curadoria por heurísticas em 14/09/2026 — **pendente de
+validação visual**):
 
 ```
-espaco_9d0dabd5.jpg   feed_03_ee62de48.jpg   feed_06_ff6a12d1.jpg
-feed_07_56672306.jpg  massagem_1086f446.jpg  mechas_fa72dfb6.jpg
-servicos_a483c6a1.jpg
+010_b5a8dce61f.jpg   011_e81b49f75a.jpg   012_de756f330a.jpg
+013_ace2782c4c.webp  014_a5c60c8ae4.jpg    015_f8f47acbb6.jpg
+016_4ffd6edf28.jpg
 ```
 
 ### Checklist de imagens antes de publicar
@@ -110,6 +125,9 @@ Copie `.env.example` para `.env` e ajuste.
 - [ ] `pnpm check` sem erros e `pnpm test` verde.
 - [ ] `pnpm build` conclui sem avisos de env não definida.
 - [ ] `SITE_URL` aponta para o domínio real (validar canonical no HTML gerado).
+- [ ] (Vercel) Framework Preset **Vite**, Build `pnpm build` e Output Directory
+      `dist/public` — ver `plans/plan-003-publicacao-vercel.md`.
+- [ ] (Vercel) `SITE_URL` e `VITE_SITE_URL` definidos nas Environment Variables de build.
 - [ ] JSON-LD validado no **Rich Results Test** e no `validator.schema.org`.
 - [ ] Imagens versionadas (e não apenas via proxy) para não depender de terceiros.
 - [ ] Imagens visíveis em produção — inclusive com cache frio e sem JS.

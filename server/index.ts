@@ -9,6 +9,11 @@ import {
   buildSitemapXml,
   resolveSiteUrl,
 } from "../shared/site";
+import {
+  extractStorageKey,
+  readStorageCredentials,
+  resolveStorageResponse,
+} from "../shared/storage";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -17,67 +22,35 @@ const ONE_DAY_SECONDS = 60 * 60 * 24;
 const ONE_MONTH_SECONDS = ONE_DAY_SECONDS * 30;
 const ONE_YEAR_SECONDS = ONE_DAY_SECONDS * 365;
 
-/** Storage remoto das imagens (mesmo contrato do proxy de dev do Vite). */
-const FORGE_BASE_URL = (process.env.BUILT_IN_FORGE_API_URL || "").replace(
-  /\/+$/,
-  ""
-);
-const FORGE_API_KEY = process.env.BUILT_IN_FORGE_API_KEY;
+/** Credenciais do storage remoto das imagens (mesmo contrato do proxy do Vite). */
+const STORAGE_CREDENTIALS = readStorageCredentials(process.env);
 
 /**
- * Entrega as imagens de `/manus-storage/<arquivo>`.
+ * Entrega as imagens de `/manus-storage/<arquivo>` que **não** existem em
+ * `client/public/manus-storage/` (as versionadas são servidas antes, pelo
+ * `express.static` — caminho recomendado, sem dependência externa).
  *
- * 1. Arquivos versionados em `client/public/manus-storage/` são servidos antes
- *    por `express.static` (caminho recomendado, sem dependência externa).
- * 2. Quando o arquivo não existe localmente, geramos uma URL assinada no
- *    storage remoto (env `BUILT_IN_FORGE_API_URL`/`BUILT_IN_FORGE_API_KEY`) e
- *    redirecionamos com `307`.
- * 3. Sem arquivo local e sem storage configurado, respondemos **404** — nunca o
- *    HTML do fallback SPA (era o que fazia todas as imagens quebrarem).
+ * A política de resposta (proxy assinado `307` → **404**, nunca o HTML do
+ * fallback SPA) vive em `shared/storage.ts`, compartilhada com a Vercel Function
+ * `api/manus-storage/[...key].ts`.
  */
 async function handleStorageRequest(
   req: express.Request,
   res: express.Response
 ) {
-  try {
-    const key = decodeURIComponent((req.url || "").replace(/^\/+/, ""));
-    const isSafeKey =
-      key.length > 0 && !key.includes("..") && !key.startsWith("/");
+  const result = await resolveStorageResponse(
+    extractStorageKey(req.url || "", STORAGE_PATH),
+    STORAGE_CREDENTIALS
+  );
 
-    if (!isSafeKey) {
-      res.status(400).type("text/plain").send("Chave de imagem inválida");
-      return;
-    }
-
-    if (!FORGE_BASE_URL || !FORGE_API_KEY) {
-      res.status(404).type("text/plain").send("Imagem não encontrada");
-      return;
-    }
-
-    const forgeUrl = new URL("v1/storage/presign/get", `${FORGE_BASE_URL}/`);
-    forgeUrl.searchParams.set("path", key);
-
-    const forgeResponse = await fetch(forgeUrl, {
-      headers: { Authorization: `Bearer ${FORGE_API_KEY}` },
-    });
-
-    if (!forgeResponse.ok) {
-      res.status(502).type("text/plain").send("Storage indisponível");
-      return;
-    }
-
-    const { url } = (await forgeResponse.json()) as { url?: string };
-    if (!url) {
-      res.status(502).type("text/plain").send("URL assinada vazia");
-      return;
-    }
-
+  if (result.status === 307) {
     // `no-store` evita que o browser cacheie o redirecionamento temporário.
     res.setHeader("Cache-Control", "no-store");
-    res.redirect(307, url);
-  } catch {
-    res.status(404).type("text/plain").send("Imagem não encontrada");
+    res.redirect(307, result.location);
+    return;
   }
+
+  res.status(result.status).type("text/plain").send(result.message);
 }
 
 async function startServer() {

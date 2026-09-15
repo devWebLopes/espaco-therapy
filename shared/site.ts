@@ -94,41 +94,52 @@ export interface SiteImage {
 /**
  * Imagens usadas na home.
  *
- * ⚠️ As dimensões declaradas refletem a proporção de layout (não os pixels
- * originais) — atualize com as medidas reais ao versionar os arquivos em
- * `client/public/manus-storage/` (ver `docs/seo-and-assets.md`).
+ * ⚠️ Curadoria por heurísticas (14/09/2026) — **pendente de validação visual**:
+ * - descartadas as miniaturas de 150×150 (`001`–`008`), que ficariam borradas
+ *   nos tamanhos de exibição (hero/cards/galeria);
+ * - priorizados tons quentes/creme (paleta areia/dourado) e o único WebP
+ *   disponível (`013`), aplicado na oferta;
+ * - `width`/`height` agora refletem as dimensões reais dos arquivos em
+ *   `client/public/manus-storage/`.
+ *
+ * Antes de publicar, validar nitidez, enquadramento e se o assunto de cada foto
+ * corresponde ao rótulo (ver plano 002 §6 e `docs/seo-and-assets.md`).
  */
 export const IMAGES = {
-  /** Interior do espaço — usada no hero (posicionamento "refúgio"). */
+  /** Hero — atmosfera clara/creme (posicionamento "refúgio"). */
   interior: {
-    src: `${STORAGE_PATH}espaco_9d0dabd5.jpg`,
+    src: `${STORAGE_PATH}014_a5c60c8ae4.jpg`,
     alt: "Interior do Espaço Therapy, em São Leopoldo",
-    width: 720,
-    height: 1000,
+    width: 480,
+    height: 640,
   } satisfies SiteImage,
+  /** Terapias & relaxamento — tons de pele quentes. */
   therapies: {
-    src: `${STORAGE_PATH}feed_06_ff6a12d1.jpg`,
+    src: `${STORAGE_PATH}015_f8f47acbb6.jpg`,
     alt: "Terapias e relaxamento no Espaço Therapy",
-    width: 600,
-    height: 600,
+    width: 512,
+    height: 640,
   } satisfies SiteImage,
+  /** Movimento & equilíbrio — tom quente. */
   movement: {
-    src: `${STORAGE_PATH}feed_07_56672306.jpg`,
+    src: `${STORAGE_PATH}012_de756f330a.jpg`,
     alt: "Movimento e equilíbrio no Espaço Therapy",
-    width: 600,
-    height: 600,
+    width: 360,
+    height: 640,
   } satisfies SiteImage,
+  /** Beleza & expressão — imagem clara (melhor contraste no card escuro). */
   beauty: {
-    src: `${STORAGE_PATH}feed_03_ee62de48.jpg`,
+    src: `${STORAGE_PATH}011_e81b49f75a.jpg`,
     alt: "Resultado de transformação capilar no Espaço Therapy",
-    width: 600,
-    height: 600,
-  },
+    width: 512,
+    height: 640,
+  } satisfies SiteImage,
+  /** Oferta (massagem) — único WebP disponível. */
   offer: {
-    src: `${STORAGE_PATH}massagem_1086f446.jpg`,
+    src: `${STORAGE_PATH}013_ace2782c4c.webp`,
     alt: "Massagem terapêutica no Espaço Therapy",
-    width: 920,
-    height: 1000,
+    width: 480,
+    height: 640,
   } satisfies SiteImage,
 } as const;
 
@@ -192,36 +203,39 @@ export interface GalleryItem {
 
 export const GALLERY: readonly GalleryItem[] = [
   // Reaproveita o interior do hero — trocar quando houver foto exclusiva da
-  // galeria (curadoria pendente, ver plano 002 §6).
+  // galeria (pendente de validação visual, ver plano 002 §6).
   { label: "O espaço", href: POST_LINKS.espaco, image: IMAGES.interior },
   {
+    // ⛔ pendente de validação visual (assunto: resultado capilar).
     label: "Mechas",
     href: POST_LINKS.mechas,
     image: {
-      src: `${STORAGE_PATH}mechas_fa72dfb6.jpg`,
+      src: `${STORAGE_PATH}016_4ffd6edf28.jpg`,
       alt: "Mechas iluminadas no Espaço Therapy",
-      width: 800,
-      height: 1200,
+      width: 512,
+      height: 640,
     } satisfies SiteImage,
   },
   {
+    // Reaproveita a imagem da oferta (massagem). ⛔ pendente de validação visual.
     label: "Terapias",
     href: POST_LINKS.massagem,
     image: {
-      src: `${STORAGE_PATH}massagem_1086f446.jpg`,
+      src: `${STORAGE_PATH}013_ace2782c4c.webp`,
       alt: "Detalhe floral de uma parceria de terapias",
-      width: 800,
-      height: 800,
+      width: 480,
+      height: 640,
     } satisfies SiteImage,
   },
   {
+    // ⛔ pendente de validação visual (assunto: card de serviços).
     label: "Serviços",
     href: POST_LINKS.servicos,
     image: {
-      src: `${STORAGE_PATH}servicos_a483c6a1.jpg`,
+      src: `${STORAGE_PATH}010_b5a8dce61f.jpg`,
       alt: "Cuidados e serviços do Espaço Therapy",
-      width: 1600,
-      height: 800,
+      width: 480,
+      height: 640,
     } satisfies SiteImage,
   },
 ];

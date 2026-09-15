@@ -22,11 +22,15 @@ espaco-therapy/
 │       └── pages/          # Home.tsx, NotFound.tsx
 ├── server/
 │   └── index.ts            # Express: static + imagens + robots/sitemap + SPA fallback
+├── api/
+│   └── manus-storage/[...key].ts  # Vercel Function: entrega das imagens (host estático)
 ├── shared/
 │   ├── const.ts            # Constantes compartilhadas (COOKIE_NAME, ONE_YEAR_MS)
-│   └── site.ts             # Fonte única: contato, conteúdo, imagens e SEO
+│   ├── site.ts             # Fonte única: contato, conteúdo, imagens e SEO
+│   └── storage.ts          # Política de entrega de /manus-storage (Express + Vercel)
 ├── patches/                # Patches pnpm (wouter@3.7.1)
 ├── dist/                   # Saída de build (public/ e index.js do servidor)
+├── vercel.json             # Deploy estático na Vercel (preset vite, rewrites, headers)
 ├── vite.config.ts          # Configuração do Vite (root=client, aliases, plugins)
 ├── vitest.config.ts        # Configuração dos testes (root do projeto)
 ├── tsconfig.json           # TypeScript (strict, paths)
@@ -49,8 +53,9 @@ espaco-therapy/
 - Serve arquivos estáticos de `dist/public` com cache por tipo de arquivo
   (HTML `no-cache`; `/assets/*` imutável por 1 ano; imagens 30 dias).
 - Gera `robots.txt` e `sitemap.xml` a partir de `shared/site.ts` (env `SITE_URL`).
-- Resolve `/manus-storage/<arquivo>`: arquivo local → proxy assinado → 404
-  (nunca o HTML do fallback SPA). Ver `docs/seo-and-assets.md`.
+- Resolve `/manus-storage/<arquivo>` com a política de `shared/storage.ts`: arquivo local
+  → proxy assinado (envs `BUILT_IN_FORGE_*`) → **404** (nunca o HTML do fallback SPA).
+  Ver `docs/seo-and-assets.md`.
 - Fallback SPA: `app.get("*")` retorna `index.html` para qualquer rota.
 - Porta: `process.env.PORT || 3000`.
 
@@ -61,6 +66,9 @@ espaco-therapy/
   relativo (servidor/esbuild).
 - `shared/site.ts` é a **fonte única de verdade** de contato, conteúdo da home,
   imagens e SEO (canonical/OG/JSON-LD/robots/sitemap).
+- `shared/storage.ts` é a **fonte única** da entrega das imagens de `/manus-storage/`
+  (`resolveStorageResponse`), consumida pelo servidor Express e pela Vercel Function
+  `api/manus-storage/[...key].ts` — cobre validação de chave, proxy assinado e 404.
 
 ## 3. Path aliases (definidos em `vite.config.ts` e `tsconfig.json`)
 
@@ -98,3 +106,20 @@ espaco-therapy/
 > **Observação:** o `vite.config.ts` contém plugins específicos de runtime
 > (manus runtime, debug collector, storage proxy) usados pelo ambiente de
 > desenvolvimento da plataforma. Não remova sem necessidade.
+
+## 6. Publicação na Vercel (hospedagem estática)
+
+O `vercel.json` publica o **SPA** (preset `vite`, saída em `dist/public`), não o servidor
+Express. Isso é necessário porque a Vercel detecta qualquer arquivo que importe `express`
+(`server/index.ts` está nessa lista) e o transforma numa Vercel Function — o que fazia o
+deploy falhar ao servir o site (plano 003).
+
+| Ponto                         | Como fica na Vercel                                                                                      |
+| ----------------------------- | -------------------------------------------------------------------------------------------------------- |
+| Build                         | `pnpm build` (o mesmo dos demais hosts) · saída `dist/public`                                            |
+| Rotas do SPA                  | `rewrites: /(.*) → /index.html` (aplicado depois dos arquivos estáticos)                                 |
+| `robots.txt` / `sitemap.xml`  | Arquivos versionados de `client/public/` (o servidor Express tem precedência quando é ele quem responde) |
+| Imagens de `/manus-storage/*` | Arquivos versionados (preferencial) ou `api/manus-storage/[...key].ts` com `BUILT_IN_FORGE_*` definidas  |
+| Domínio canônico              | Env `SITE_URL`/`VITE_SITE_URL` no **build** (canonical, OG e JSON-LD)                                    |
+
+Passo a passo completo, riscos e checklist: `plans/plan-003-publicacao-vercel.md`.
