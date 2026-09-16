@@ -13,11 +13,31 @@
 /** Domínio canônico padrão. Sobrescrevável por `SITE_URL`/`VITE_SITE_URL`. */
 export const DEFAULT_SITE_URL = "https://espacotherapy.com.br";
 
-/** Caminho base das imagens (servidas localmente ou via proxy `/manus-storage`). */
+/**
+ * Caminho base das imagens (servidas localmente ou via proxy `/manus-storage`).
+ *
+ * Convenção de nomenclatura dos arquivos:
+ *   `[seção]--[descrição]--[hash-8].[ext]`
+ *
+ * Seções válidas:
+ *   - `hero`     → imagem principal acima da dobra
+ *   - `servicos` → cards de cada eixo de serviço
+ *   - `oferta`   → bloco de promoção/campanha
+ *   - `galeria`  → grade de fotos do Instagram
+ *   - `og`       → banner social (Open Graph / Twitter Card)
+ *
+ * Arquivos arquivados (não exibidos no site) ficam em
+ * `client/public/manus-storage/instagram-archive/`.
+ */
 export const STORAGE_PATH = "/manus-storage/";
 
-/** Imagem social (Open Graph). Pendente: gerar um banner dedicado 1200×630. */
-export const OG_IMAGE_PATH = `${STORAGE_PATH}espaco_9d0dabd5.jpg`;
+/**
+ * Imagem social (Open Graph / Twitter Card).
+ *
+ * Seção: `og`
+ * Pendente: gerar um banner dedicado 1200×630 com identidade visual própria.
+ */
+export const OG_IMAGE_PATH = `${STORAGE_PATH}og--banner--9d0dabd5.jpg`;
 
 /** Data da última revisão de conteúdo (usada no `lastmod` do sitemap). */
 export const CONTENT_LAST_MODIFIED = "2026-09-14";
@@ -92,43 +112,82 @@ export interface SiteImage {
   height: number;
 }
 /**
- * Imagens usadas na home.
+ * Imagens usadas na home, organizadas por seção.
+ *
+ * Convenção de arquivo: `[seção]--[descrição]--[hash-8].[ext]`
+ * Referência completa: `docs/seo-and-assets.md`
  *
  * ⚠️ As dimensões declaradas refletem a proporção de layout (não os pixels
  * originais) — atualize com as medidas reais ao versionar os arquivos em
- * `client/public/manus-storage/` (ver `docs/seo-and-assets.md`).
+ * `client/public/manus-storage/`.
  */
 export const IMAGES = {
-  /** Interior do espaço — usada no hero (posicionamento "refúgio"). */
+  /**
+   * Seção: `hero`
+   * Interior do espaço — foto principal acima da dobra.
+   * Também reutilizada na galeria como "O espaço" (ver GALLERY abaixo).
+   */
   interior: {
-    src: `${STORAGE_PATH}espaco_9d0dabd5.jpg`,
+    src: `${STORAGE_PATH}hero--interior--9d0dabd5.jpg`,
     alt: "Interior do Espaço Therapy, em São Leopoldo",
     width: 720,
     height: 1000,
   } satisfies SiteImage,
+
+  /**
+   * Seção: `servicos`
+   * Card "Terapias & relaxamento" — massagens, pedras quentes, Reiki.
+   */
   therapies: {
-    src: `${STORAGE_PATH}feed_06_ff6a12d1.jpg`,
+    src: `${STORAGE_PATH}servicos--terapias--ff6a12d1.jpg`,
     alt: "Terapias e relaxamento no Espaço Therapy",
     width: 600,
     height: 600,
   } satisfies SiteImage,
+
+  /**
+   * Seção: `servicos`
+   * Card "Movimento & equilíbrio" — Pilates, alongamento, ventosaterapia.
+   */
   movement: {
-    src: `${STORAGE_PATH}feed_07_56672306.jpg`,
+    src: `${STORAGE_PATH}servicos--movimento--56672306.jpg`,
     alt: "Movimento e equilíbrio no Espaço Therapy",
     width: 600,
     height: 600,
   } satisfies SiteImage,
+
+  /**
+   * Seção: `servicos`
+   * Card "Beleza & expressão" — mechas, cílios, mãos & pés.
+   */
   beauty: {
-    src: `${STORAGE_PATH}feed_03_ee62de48.jpg`,
+    src: `${STORAGE_PATH}servicos--beleza--ee62de48.jpg`,
     alt: "Resultado de transformação capilar no Espaço Therapy",
     width: 600,
     height: 600,
-  },
+  } satisfies SiteImage,
+
+  /**
+   * Seção: `oferta`
+   * Bloco de campanha/promoção — massagem terapêutica em destaque.
+   */
   offer: {
-    src: `${STORAGE_PATH}massagem_1086f446.jpg`,
+    src: `${STORAGE_PATH}oferta--massagem--1086f446.jpg`,
     alt: "Massagem terapêutica no Espaço Therapy",
     width: 920,
     height: 1000,
+  } satisfies SiteImage,
+
+  /**
+   * Seção: `manifesto`
+   * Retrato da profissional — foto original do Instagram com textos removidos.
+   * Arquivo original arquivado em: instagram-archive/006_a04829f211.jpg
+   */
+  manifesto: {
+    src: `${STORAGE_PATH}manifesto--erika--a04829f2.jpg`,
+    alt: "Profissional do Espaço Therapy em São Leopoldo",
+    width: 800,
+    height: 1200,
   } satisfies SiteImage,
 } as const;
 
@@ -191,34 +250,41 @@ export interface GalleryItem {
 }
 
 export const GALLERY: readonly GalleryItem[] = [
-  // Reaproveita o interior do hero — trocar quando houver foto exclusiva da
-  // galeria (curadoria pendente, ver plano 002 §6).
-  { label: "O espaço", href: POST_LINKS.espaco, image: IMAGES.interior },
   {
+    // Seção: galeria — reutiliza a foto do hero enquanto não há imagem exclusiva
+    // (curadoria pendente, ver plano 002 §6).
+    label: "O espaço",
+    href: POST_LINKS.espaco,
+    image: IMAGES.interior,
+  },
+  {
+    // Seção: galeria — mechas e serviços capilares
     label: "Mechas",
     href: POST_LINKS.mechas,
     image: {
-      src: `${STORAGE_PATH}mechas_fa72dfb6.jpg`,
+      src: `${STORAGE_PATH}galeria--mechas--fa72dfb6.jpg`,
       alt: "Mechas iluminadas no Espaço Therapy",
       width: 800,
       height: 1200,
     } satisfies SiteImage,
   },
   {
+    // Seção: galeria — terapias e relaxamento (reutiliza arquivo da oferta)
     label: "Terapias",
     href: POST_LINKS.massagem,
     image: {
-      src: `${STORAGE_PATH}massagem_1086f446.jpg`,
+      src: `${STORAGE_PATH}oferta--massagem--1086f446.jpg`,
       alt: "Detalhe floral de uma parceria de terapias",
       width: 800,
       height: 800,
     } satisfies SiteImage,
   },
   {
+    // Seção: galeria — visão geral dos serviços do espaço
     label: "Serviços",
     href: POST_LINKS.servicos,
     image: {
-      src: `${STORAGE_PATH}servicos_a483c6a1.jpg`,
+      src: `${STORAGE_PATH}galeria--servicos--a483c6a1.jpg`,
       alt: "Cuidados e serviços do Espaço Therapy",
       width: 1600,
       height: 800,

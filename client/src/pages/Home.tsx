@@ -212,6 +212,18 @@ function Home() {
               Conheça nosso jeito <ArrowUpRight size={15} aria-hidden="true" />
             </a>
           </div>
+          <div className="manifesto-portrait" aria-hidden="true">
+            <div className="manifesto-portrait-frame">
+              <img
+                src={IMAGES.manifesto.src}
+                alt={IMAGES.manifesto.alt}
+                width={IMAGES.manifesto.width}
+                height={IMAGES.manifesto.height}
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+          </div>
         </div>
       </section>
 
