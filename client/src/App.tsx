@@ -4,6 +4,7 @@ import NotFound from "@/pages/NotFound";
 import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
+import { SmoothScrollProvider } from "./contexts/SmoothScrollContext";
 import Home from "./pages/Home";
 
 function Router() {
@@ -20,13 +21,15 @@ function App() {
   return (
     <ErrorBoundary>
       <ThemeProvider defaultTheme="light">
-        <TooltipProvider>
-          <a className="skip-link" href="#conteudo">
-            Pular para o conteúdo
-          </a>
-          <Toaster />
-          <Router />
-        </TooltipProvider>
+        <SmoothScrollProvider>
+          <TooltipProvider>
+            <a className="skip-link" href="#conteudo">
+              Pular para o conteúdo
+            </a>
+            <Toaster />
+            <Router />
+          </TooltipProvider>
+        </SmoothScrollProvider>
       </ThemeProvider>
     </ErrorBoundary>
   );

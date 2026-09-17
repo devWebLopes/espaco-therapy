@@ -128,20 +128,28 @@ describe("buildSiteJsonLd", () => {
     expect(jsonLd).not.toContain("%");
   });
 
-  it("declara negócio local, website e FAQ", () => {
-    expect(types).toEqual(["HealthAndBeautyBusiness", "WebSite", "FAQPage"]);
+  it("declara negócio local / organização, website e FAQ", () => {
+    expect(types[0]).toEqual([
+      "HealthAndBeautyBusiness",
+      "LocalBusiness",
+      "Organization",
+    ]);
+    expect(types[1]).toBe("WebSite");
+    expect(types[2]).toBe("FAQPage");
   });
 
   it("usa o NAP e o contato oficiais", () => {
     const business = parsed["@graph"][0] as Record<string, unknown>;
     const address = business.address as Record<string, string>;
-    const contactPoint = business.contactPoint as Record<string, string>;
+    const contactPoints = business.contactPoint as Array<
+      Record<string, unknown>
+    >;
 
     expect(business.telephone).toBe(CONTACT.telephone);
     expect(address.streetAddress).toBe(ADDRESS.street);
     expect(address.addressLocality).toBe(ADDRESS.city);
     expect(address.addressRegion).toBe(ADDRESS.region);
-    expect(contactPoint.url).toBe(buildWhatsAppUrl());
+    expect(contactPoints[0].url).toBe(buildWhatsAppUrl());
     expect(business.sameAs).toEqual([CONTACT.instagramUrl]);
   });
 
@@ -150,7 +158,7 @@ describe("buildSiteJsonLd", () => {
 
     expect(business.openingHours).toBeUndefined();
     expect(business.aggregateRating).toBeUndefined();
-    expect(business.priceRange).toBeUndefined();
+    expect(business.priceRange).toBe("$$");
   });
 
   it("espelha a seção de FAQ e o catálogo de serviços visíveis", () => {

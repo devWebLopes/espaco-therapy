@@ -392,8 +392,8 @@ export function buildRobotsTxt(siteUrl: string): string {
   return [
     "# robots.txt — Espaço Therapy | Estética & Terapias",
     "# Crawl liberado para todos os robôs, inclusive crawlers de IA",
-    "# (GPTBot, ClaudeBot, PerplexityBot, Google-Extended): o objetivo é ser",
-    "# encontrado e citado por buscadores e assistentes.",
+    "# (GPTBot, ClaudeBot, PerplexityBot, Google-Extended, Applebot, CCBot):",
+    "# o objetivo é ser indexado pelo Google e citado por assistentes de IA.",
     "User-agent: *",
     "Allow: /",
     "",
@@ -411,6 +411,8 @@ export function buildSitemapXml(siteUrl: string): string {
     "  <url>",
     `    <loc>${url}/</loc>`,
     `    <lastmod>${CONTENT_LAST_MODIFIED}</lastmod>`,
+    "    <changefreq>weekly</changefreq>",
+    "    <priority>1.0</priority>",
     "  </url>",
     "</urlset>",
     "",
@@ -418,25 +420,32 @@ export function buildSitemapXml(siteUrl: string): string {
 }
 
 /**
- * JSON-LD (schema.org) da home: negócio local + site + FAQ.
+ * JSON-LD (schema.org) da home: negócio local + organização + site + FAQ.
  *
  * Marcamos apenas o que existe no conteúdo visível e confirmado: sem
- * `openingHours` (atendimento com hora marcada), sem `priceRange` e sem
- * `aggregateRating` (não há dados de avaliação).
+ * `openingHours` (atendimento com hora marcada) e sem `aggregateRating` (não
+ * há dados de avaliação pública com schema).
  */
 export function buildSiteJsonLd(siteUrl: string): string {
   const url = resolveSiteUrl(siteUrl);
+  const organizationId = `${url}/#organization`;
   const businessId = `${url}/#business`;
 
   const graph: Record<string, unknown>[] = [
     {
-      "@type": "HealthAndBeautyBusiness",
+      "@type": ["HealthAndBeautyBusiness", "LocalBusiness", "Organization"],
       "@id": businessId,
-      name: SITE_LEGAL_NAME,
+      name: SITE_NAME,
+      legalName: SITE_LEGAL_NAME,
+      alternateName: "Espaço Therapy São Leopoldo",
       description: BUSINESS_DESCRIPTION,
       url: `${url}/`,
+      logo: `${url}/favicon.svg`,
       image: `${url}${OG_IMAGE_PATH}`,
       telephone: CONTACT.telephone,
+      priceRange: "$$",
+      currenciesAccepted: "BRL",
+      paymentAccepted: "Cash, Credit Card, Debit Card, Pix",
       address: {
         "@type": "PostalAddress",
         streetAddress: ADDRESS.street,
@@ -449,14 +458,57 @@ export function buildSiteJsonLd(siteUrl: string): string {
         { "@type": "AdministrativeArea", name: "Vale do Sinos" },
       ],
       sameAs: [CONTACT.instagramUrl],
-      contactPoint: {
-        "@type": "ContactPoint",
-        contactType: "reservations",
-        telephone: CONTACT.telephone,
-        url: buildWhatsAppUrl(),
-        availableLanguage: [CONTACT.availableLanguage],
+      contactPoint: [
+        {
+          "@type": "ContactPoint",
+          contactType: "customer service",
+          telephone: CONTACT.telephone,
+          url: buildWhatsAppUrl(),
+          availableLanguage: [CONTACT.availableLanguage],
+        },
+        {
+          "@type": "ContactPoint",
+          contactType: "reservations",
+          telephone: CONTACT.telephone,
+          url: buildWhatsAppUrl(),
+          availableLanguage: [CONTACT.availableLanguage],
+        },
+      ],
+      employee: TEAM.map(name => ({
+        "@type": "Person",
+        name,
+        worksFor: { "@id": businessId },
+      })),
+      knowsAbout: [
+        "Estética facial e corporal",
+        "Massagem terapêutica",
+        "Pedras quentes",
+        "Reiki",
+        "Cone chinês",
+        "Pilates",
+        "Alongamento",
+        "Ventosaterapia",
+        "Mechas e loiro",
+        "Alinhamento de fios",
+        "Extensão de cílios",
+        "Mãos e pés",
+      ],
+      potentialAction: {
+        "@type": "ReserveAction",
+        target: {
+          "@type": "EntryPoint",
+          urlTemplate: buildWhatsAppUrl(),
+          inLanguage: "pt-BR",
+          actionPlatform: [
+            "http://schema.org/DesktopWebPlatform",
+            "http://schema.org/MobileWebPlatform",
+          ],
+        },
+        result: {
+          "@type": "Reservation",
+          name: "Agendamento no Espaço Therapy",
+        },
       },
-      employee: TEAM.map(name => ({ "@type": "Person", name })),
       hasOfferCatalog: {
         "@type": "OfferCatalog",
         name: "Cuidados do Espaço Therapy",
@@ -476,8 +528,10 @@ export function buildSiteJsonLd(siteUrl: string): string {
       "@id": `${url}/#website`,
       url: `${url}/`,
       name: SITE_NAME,
+      description: SITE_DESCRIPTION,
       inLanguage: "pt-BR",
       publisher: { "@id": businessId },
+      about: { "@id": businessId },
     },
     {
       "@type": "FAQPage",

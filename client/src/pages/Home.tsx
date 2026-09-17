@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useSmoothScroll } from "@/contexts/SmoothScrollContext";
 import {
   ArrowDown,
   ArrowUpRight,
@@ -107,6 +108,7 @@ function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const closeMenu = () => setMenuOpen(false);
+  const { scrollTo } = useSmoothScroll();
 
   const handleScrollTo = (
     e: React.MouseEvent<HTMLAnchorElement>,
@@ -120,10 +122,7 @@ function Home() {
 
     const id = targetId.replace(/^#/, "");
     if (id === "inicio") {
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth",
-      });
+      scrollTo(0, { duration: 1.25 });
       if (window.history.pushState) {
         window.history.pushState(null, "", "#inicio");
       }
@@ -135,12 +134,10 @@ function Home() {
 
     const header = document.querySelector<HTMLElement>(".site-header");
     const headerHeight = header ? header.offsetHeight : 72;
-    const elementPosition = element.getBoundingClientRect().top + window.scrollY;
-    const offsetPosition = Math.max(0, elementPosition - headerHeight);
 
-    window.scrollTo({
-      top: offsetPosition,
-      behavior: "smooth",
+    scrollTo(element, {
+      offset: -headerHeight,
+      duration: 1.25,
     });
 
     if (window.history.pushState) {

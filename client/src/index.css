@@ -72,14 +72,39 @@
 .dark { --background: #27231f; --foreground: #f5f1ea; }
 
 html {
-  scroll-behavior: smooth;
   scroll-padding-top: var(--header-height, 72px);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html:not(.lenis) {
+    scroll-behavior: smooth;
+  }
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: clip;
+}
+
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
 }
 
 @layer base {
   * { @apply border-border outline-ring/50; }
   html {
-    scroll-behavior: smooth;
     scroll-padding-top: var(--header-height, 72px);
   }
   section[id],

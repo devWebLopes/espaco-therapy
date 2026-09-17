@@ -5,9 +5,10 @@
 # `SITE_URL` (ver docs/seo-and-assets.md).
 #
 # Crawl liberado para todos os robôs, inclusive crawlers de IA (GPTBot,
-# ClaudeBot, PerplexityBot, Google-Extended): o objetivo é ser encontrado e
-# citado por buscadores e assistentes.
+# ClaudeBot, PerplexityBot, Google-Extended, Applebot, CCBot): o objetivo é ser
+# encontrado e citado por buscadores e assistentes.
 User-agent: *
 Allow: /
 
 Sitemap: https://espacotherapy.com.br/sitemap.xml
+
