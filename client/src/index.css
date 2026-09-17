@@ -57,12 +57,36 @@
   --header-height: 72px;
 }
 
+@media (max-width: 800px) {
+  :root {
+    --header-height: 68px;
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --header-height: 64px;
+  }
+}
+
 .dark { --background: #27231f; --foreground: #f5f1ea; }
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: var(--header-height, 72px);
+}
 
 @layer base {
   * { @apply border-border outline-ring/50; }
-  html { scroll-behavior: smooth; }
-  [id] { scroll-margin-top: var(--header-height, 72px); }
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: var(--header-height, 72px);
+  }
+  section[id],
+  main[id],
+  div[id] {
+    scroll-margin-top: var(--header-height, 72px);
+  }
   body { @apply bg-background text-foreground; margin: 0; font-family: var(--font-sans); font-weight: 400; }
   button:not(:disabled),
   a[href] { cursor: pointer; }

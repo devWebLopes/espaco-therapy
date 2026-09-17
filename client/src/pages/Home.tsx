@@ -34,9 +34,18 @@ const whatsapp = buildWhatsAppUrl();
 const instagram = CONTACT.instagramUrl;
 const mapsUrl = CONTACT.mapsUrl;
 
-function Logo() {
+function Logo({
+  onClick,
+}: {
+  onClick?: (e: React.MouseEvent<HTMLAnchorElement>) => void;
+}) {
   return (
-    <a className="logo" href="#inicio" aria-label="Espaço Therapy — início">
+    <a
+      className="logo"
+      href="#inicio"
+      onClick={onClick}
+      aria-label="Espaço Therapy — início"
+    >
       <span className="logo-mark" aria-hidden="true">
         <Flower2 size={18} strokeWidth={1.5} />
       </span>
@@ -75,25 +84,80 @@ function Home() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const closeMenu = () => setMenuOpen(false);
 
+  const handleScrollTo = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    targetId: string,
+    closeMobileMenu = false
+  ) => {
+    e.preventDefault();
+    if (closeMobileMenu) {
+      setMenuOpen(false);
+    }
+
+    const id = targetId.replace(/^#/, "");
+    if (id === "inicio") {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+      if (window.history.pushState) {
+        window.history.pushState(null, "", "#inicio");
+      }
+      return;
+    }
+
+    const element = document.getElementById(id);
+    if (!element) return;
+
+    const header = document.querySelector<HTMLElement>(".site-header");
+    const headerHeight = header ? header.offsetHeight : 72;
+    const elementPosition = element.getBoundingClientRect().top + window.scrollY;
+    const offsetPosition = Math.max(0, elementPosition - headerHeight);
+
+    window.scrollTo({
+      top: offsetPosition,
+      behavior: "smooth",
+    });
+
+    if (window.history.pushState) {
+      window.history.pushState(null, "", `#${id}`);
+    }
+
+    element.setAttribute("tabindex", "-1");
+    element.focus({ preventScroll: true });
+  };
+
   return (
     <main id="conteudo" tabIndex={-1}>
       <header className="site-header">
         <div className="header-inner">
-          <Logo />
+          <Logo onClick={e => handleScrollTo(e, "#inicio", true)} />
           <nav
             className={`main-nav ${menuOpen ? "is-open" : ""}`}
             aria-label="Navegação principal"
           >
-            <a href="#servicos" onClick={closeMenu}>
+            <a
+              href="#servicos"
+              onClick={e => handleScrollTo(e, "#servicos", true)}
+            >
               Serviços
             </a>
-            <a href="#ritual" onClick={closeMenu}>
+            <a
+              href="#ritual"
+              onClick={e => handleScrollTo(e, "#ritual", true)}
+            >
               O espaço
             </a>
-            <a href="#equipe" onClick={closeMenu}>
+            <a
+              href="#equipe"
+              onClick={e => handleScrollTo(e, "#equipe", true)}
+            >
               Equipe
             </a>
-            <a href="#contato" onClick={closeMenu}>
+            <a
+              href="#contato"
+              onClick={e => handleScrollTo(e, "#contato", true)}
+            >
               Visite
             </a>
             <a
@@ -140,7 +204,11 @@ function Home() {
               é só seu.
             </p>
             <div className="hero-actions">
-              <a className="button button-dark" href="#servicos">
+              <a
+                className="button button-dark"
+                href="#servicos"
+                onClick={e => handleScrollTo(e, "#servicos")}
+              >
                 Descobrir o espaço <ArrowDown size={16} aria-hidden="true" />
               </a>
               <a
@@ -180,7 +248,11 @@ function Home() {
         </div>
         <div className="hero-bottom container">
           <span>{ADDRESS_LABEL}</span>
-          <a href="#servicos" aria-label="Rolar para serviços">
+          <a
+            href="#servicos"
+            onClick={e => handleScrollTo(e, "#servicos")}
+            aria-label="Rolar para serviços"
+          >
             <ChevronRight size={17} aria-hidden="true" />
           </a>
         </div>
@@ -208,7 +280,11 @@ function Home() {
               Entre tratamentos, conversas e pequenos rituais, criamos um lugar
               onde você desacelera sem precisar se explicar.
             </p>
-            <a className="text-link" href="#contato">
+            <a
+              className="text-link"
+              href="#contato"
+              onClick={e => handleScrollTo(e, "#contato")}
+            >
               Conheça nosso jeito <ArrowUpRight size={15} aria-hidden="true" />
             </a>
           </div>
@@ -512,7 +588,7 @@ function Home() {
 
       <footer className="site-footer">
         <div className="container footer-inner">
-          <Logo />
+          <Logo onClick={e => handleScrollTo(e, "#inicio")} />
           <p>
             Corpo, mente e energia
             <br />
