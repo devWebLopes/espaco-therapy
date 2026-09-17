@@ -19,18 +19,46 @@ interface ScrollToOptions {
 
 interface SmoothScrollContextType {
   lenis: Lenis | null;
+  /** Rolagem programática genérica (sem offset automático do header). */
   scrollTo: (
     target: string | HTMLElement | number,
     options?: ScrollToOptions
   ) => void;
+  /**
+   * Rolagem por âncora com offset automático do header, atualização de URL e
+   * gerenciamento de foco. Use para links internos `#id`.
+   */
+  scrollToAnchor: (targetId: string, closeMobileMenu?: () => void) => void;
 }
 
 const SmoothScrollContext = createContext<SmoothScrollContextType>({
   lenis: null,
   scrollTo: () => {},
+  scrollToAnchor: () => {},
 });
 
 export const useSmoothScroll = () => useContext(SmoothScrollContext);
+
+/* -------------------------------------------------------------------------- */
+/*  Funções auxiliares puras (sem dependência de estado React)                 */
+/* -------------------------------------------------------------------------- */
+
+/** Retorna a altura atual do header fixo ou 72 px como fallback. */
+function getHeaderOffset(): number {
+  const header = document.querySelector<HTMLElement>(".site-header");
+  return header ? header.offsetHeight : 72;
+}
+
+/** Resolve um hash `#id` em um HTMLElement (ou `null`). */
+function resolveTarget(hash: string): HTMLElement | null {
+  if (!hash || hash === "#" || hash === "#/") return null;
+  const id = hash.replace(/^#/, "");
+  return (
+    document.getElementById(id) ??
+    document.querySelector<HTMLElement>(hash) ??
+    null
+  );
+}
 
 export function SmoothScrollProvider({
   children,
@@ -76,6 +104,7 @@ export function SmoothScrollProvider({
     // Disponibiliza no objeto window global para inspeção e controle
     (window as unknown as { lenis: Lenis }).lenis = lenis;
 
+    /* ---- Loop RAF -------------------------------------------------------- */
     let rafId: number;
     function raf(time: number) {
       lenis.raf(time);
@@ -83,8 +112,9 @@ export function SmoothScrollProvider({
     }
     rafId = requestAnimationFrame(raf);
 
-    // Interceptação global de links âncora (#) com rolagem suave
+    /* ---- Interceptação global de links âncora (#) ------------------------ */
     const handleAnchorClick = (event: MouseEvent) => {
+      // Ignora se já foi tratado ou se há tecla modificadora
       if (
         event.defaultPrevented ||
         event.button !== 0 ||
@@ -107,35 +137,76 @@ export function SmoothScrollProvider({
       const href = link.getAttribute("href");
       if (!href || href === "#" || href === "#/") return;
 
-      let target: HTMLElement | null = null;
-      try {
-        target = document.querySelector<HTMLElement>(href);
-      } catch {
-        target = document.getElementById(href.replace(/^#/, ""));
-      }
+      event.preventDefault();
 
-      if (target) {
-        event.preventDefault();
+      const id = href.replace(/^#/, "");
 
-        // Compensação da altura do header fixo/sticky
-        const header = document.querySelector<HTMLElement>(".site-header");
-        const headerHeight = header ? header.offsetHeight : 72;
-
-        lenis.scrollTo(target, {
-          offset: -headerHeight,
-          duration: 1.4,
-        });
-
+      // Caso especial: #inicio → rolar ao topo
+      if (id === "inicio") {
+        lenis.scrollTo(0, { duration: 1.4 });
         if (window.history.pushState) {
-          window.history.pushState(null, "", href);
+          window.history.pushState(null, "", "#inicio");
         }
-
-        target.setAttribute("tabindex", "-1");
-        target.focus({ preventScroll: true });
+        return;
       }
+
+      const target = resolveTarget(href);
+      if (!target) return;
+
+      const headerHeight = getHeaderOffset();
+
+      lenis.scrollTo(target, {
+        offset: -headerHeight,
+        duration: 1.4,
+      });
+
+      if (window.history.pushState) {
+        window.history.pushState(null, "", href);
+      }
+
+      target.setAttribute("tabindex", "-1");
+      target.focus({ preventScroll: true });
     };
 
     document.addEventListener("click", handleAnchorClick);
+
+    /* ---- Scroll para hash na carga inicial ------------------------------- */
+    const initialHash = window.location.hash;
+    if (initialHash && initialHash !== "#" && initialHash !== "#/") {
+      // Pequeno delay para garantir que o DOM renderizou e o Lenis estabilizou
+      const timerId = window.setTimeout(() => {
+        const id = initialHash.replace(/^#/, "");
+        if (id === "inicio") {
+          lenis.scrollTo(0, { immediate: true });
+          return;
+        }
+        const target = resolveTarget(initialHash);
+        if (target) {
+          lenis.scrollTo(target, {
+            offset: -getHeaderOffset(),
+            duration: 1.4,
+          });
+          target.setAttribute("tabindex", "-1");
+          target.focus({ preventScroll: true });
+        }
+      }, 100);
+
+      // Cleanup do timer
+      const originalCleanup = () => {
+        window.clearTimeout(timerId);
+      };
+
+      // Guarda referência para cleanup combinado
+      return () => {
+        originalCleanup();
+        document.removeEventListener("click", handleAnchorClick);
+        cancelAnimationFrame(rafId);
+        lenis.destroy();
+        lenisRef.current = null;
+        setLenisInstance(null);
+        delete (window as unknown as { lenis?: Lenis }).lenis;
+      };
+    }
 
     return () => {
       document.removeEventListener("click", handleAnchorClick);
@@ -147,6 +218,9 @@ export function SmoothScrollProvider({
     };
   }, []);
 
+  /* ---------------------------------------------------------------------- */
+  /*  scrollTo — rolagem programática genérica (sem offset do header)        */
+  /* ---------------------------------------------------------------------- */
   const scrollTo = useCallback(
     (
       target: string | HTMLElement | number,
@@ -167,10 +241,7 @@ export function SmoothScrollProvider({
       if (typeof target === "number") {
         window.scrollTo({ top: target, behavior: "smooth" });
       } else if (typeof target === "string") {
-        const id = target.replace(/^#/, "");
-        const el =
-          document.getElementById(id) ||
-          document.querySelector<HTMLElement>(target);
+        const el = resolveTarget(target);
         if (el) {
           const top =
             el.getBoundingClientRect().top +
@@ -189,9 +260,62 @@ export function SmoothScrollProvider({
     []
   );
 
+  /* ---------------------------------------------------------------------- */
+  /*  scrollToAnchor — função reutilizável para navegação por âncora         */
+  /* ---------------------------------------------------------------------- */
+  const scrollToAnchor = useCallback(
+    (targetId: string, closeMobileMenu?: () => void) => {
+      // Fecha menu mobile primeiro (se callback fornecido)
+      closeMobileMenu?.();
+
+      const id = targetId.replace(/^#/, "");
+      const activeLenis = lenisRef.current;
+
+      // Caso especial: #inicio → rolar ao topo
+      if (id === "inicio") {
+        if (activeLenis) {
+          activeLenis.scrollTo(0, { duration: 1.4 });
+        } else {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+        if (window.history.pushState) {
+          window.history.pushState(null, "", "#inicio");
+        }
+        return;
+      }
+
+      const target = resolveTarget(`#${id}`);
+      if (!target) return;
+
+      const headerHeight = getHeaderOffset();
+
+      if (activeLenis) {
+        activeLenis.scrollTo(target, {
+          offset: -headerHeight,
+          duration: 1.4,
+        });
+      } else {
+        // Fallback nativo
+        const top =
+          target.getBoundingClientRect().top +
+          window.scrollY -
+          headerHeight;
+        window.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
+      }
+
+      if (window.history.pushState) {
+        window.history.pushState(null, "", `#${id}`);
+      }
+
+      target.setAttribute("tabindex", "-1");
+      target.focus({ preventScroll: true });
+    },
+    []
+  );
+
   const contextValue = useMemo(
-    () => ({ lenis: lenisInstance, scrollTo }),
-    [lenisInstance, scrollTo]
+    () => ({ lenis: lenisInstance, scrollTo, scrollToAnchor }),
+    [lenisInstance, scrollTo, scrollToAnchor]
   );
 
   return (

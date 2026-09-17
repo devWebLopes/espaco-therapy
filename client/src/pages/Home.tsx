@@ -108,76 +108,52 @@ function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const closeMenu = () => setMenuOpen(false);
-  const { scrollTo } = useSmoothScroll();
+  const { scrollToAnchor } = useSmoothScroll();
 
-  const handleScrollTo = (
+  /**
+   * Handler usado apenas nos links do menu mobile / logo que precisam
+   * fechar o menu. O scroll em si é delegado ao `scrollToAnchor` do contexto.
+   * Os links que NÃO precisam fechar o menu não têm onClick — o interceptor
+   * global no SmoothScrollContext já cuida do preventDefault + lenis.scrollTo.
+   */
+  const handleNavClick = (
     e: React.MouseEvent<HTMLAnchorElement>,
-    targetId: string,
-    closeMobileMenu = false
+    targetId: string
   ) => {
     e.preventDefault();
-    if (closeMobileMenu) {
-      setMenuOpen(false);
-    }
-
-    const id = targetId.replace(/^#/, "");
-    if (id === "inicio") {
-      scrollTo(0, { duration: 1.4 });
-      if (window.history.pushState) {
-        window.history.pushState(null, "", "#inicio");
-      }
-      return;
-    }
-
-    const element = document.getElementById(id);
-    if (!element) return;
-
-    const header = document.querySelector<HTMLElement>(".site-header");
-    const headerHeight = header ? header.offsetHeight : 72;
-
-    scrollTo(element, {
-      offset: -headerHeight,
-      duration: 1.4,
-    });
-
-    if (window.history.pushState) {
-      window.history.pushState(null, "", `#${id}`);
-    }
-
-    element.setAttribute("tabindex", "-1");
-    element.focus({ preventScroll: true });
+    scrollToAnchor(targetId, closeMenu);
   };
 
   return (
     <main id="conteudo" tabIndex={-1}>
       <header className="site-header">
         <div className="header-inner">
-          <Logo onClick={e => handleScrollTo(e, "#inicio", true)} />
+          <Logo onClick={e => handleNavClick(e, "#inicio")} />
           <nav
             className={`main-nav ${menuOpen ? "is-open" : ""}`}
             aria-label="Navegação principal"
           >
             <a
               href="#servicos"
-              onClick={e => handleScrollTo(e, "#servicos", true)}
+              onClick={e => handleNavClick(e, "#servicos")}
             >
               Serviços
             </a>
             <a
               href="#ritual"
-              onClick={e => handleScrollTo(e, "#ritual", true)}
+              onClick={e => handleNavClick(e, "#ritual")}
             >
               O espaço
             </a>
             <a
               href="#equipe"
-              onClick={e => handleScrollTo(e, "#equipe", true)}
+              onClick={e => handleNavClick(e, "#equipe")}
             >
               Equipe
             </a>
             <a
               href="#contato"
-              onClick={e => handleScrollTo(e, "#contato", true)}
+              onClick={e => handleNavClick(e, "#contato")}
             >
               Visite
             </a>
@@ -228,7 +204,6 @@ function Home() {
               <a
                 className="button button-dark"
                 href="#servicos"
-                onClick={e => handleScrollTo(e, "#servicos")}
               >
                 Descobrir o espaço <ArrowDown size={16} aria-hidden="true" />
               </a>
@@ -271,7 +246,6 @@ function Home() {
           <span>{ADDRESS_LABEL}</span>
           <a
             href="#servicos"
-            onClick={e => handleScrollTo(e, "#servicos")}
             aria-label="Rolar para serviços"
           >
             <ChevronRight size={17} aria-hidden="true" />
@@ -304,7 +278,6 @@ function Home() {
             <a
               className="text-link"
               href="#contato"
-              onClick={e => handleScrollTo(e, "#contato")}
             >
               Conheça nosso jeito <ArrowUpRight size={15} aria-hidden="true" />
             </a>
@@ -609,7 +582,7 @@ function Home() {
 
       <footer className="site-footer">
         <div className="container footer-inner">
-          <Logo onClick={e => handleScrollTo(e, "#inicio")} />
+          <Logo onClick={e => { e.preventDefault(); scrollToAnchor("#inicio"); }} />
           <p>
             Corpo, mente e energia
             <br />
