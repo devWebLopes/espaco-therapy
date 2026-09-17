@@ -47,16 +47,17 @@ export function SmoothScrollProvider({
     ).matches;
     if (prefersReducedMotion) return;
 
-    // Configuração refinada e fluida com inércia (estilo post2go.com.br)
+    // Configuração refinada e fluida com inércia pronunciada e elegante (mouse, trackpad e touch)
     const lenis = new Lenis({
-      duration: 1.2,
-      easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      duration: 1.4,
+      easing: (t: number) => 1 - Math.pow(1 - t, 4),
       orientation: "vertical",
       gestureOrientation: "vertical",
       smoothWheel: true,
-      syncTouch: false,
-      wheelMultiplier: 1,
-      touchMultiplier: 1.1,
+      syncTouch: true,
+      syncTouchLerp: 0.08,
+      wheelMultiplier: 1.2,
+      touchMultiplier: 1.4,
       infinite: false,
       prevent: (node: HTMLElement) => {
         return (
@@ -72,9 +73,8 @@ export function SmoothScrollProvider({
     lenisRef.current = lenis;
     setLenisInstance(lenis);
 
-    if (import.meta.env.DEV) {
-      (window as unknown as { lenis: Lenis }).lenis = lenis;
-    }
+    // Disponibiliza no objeto window global para inspeção e controle
+    (window as unknown as { lenis: Lenis }).lenis = lenis;
 
     let rafId: number;
     function raf(time: number) {
@@ -123,7 +123,7 @@ export function SmoothScrollProvider({
 
         lenis.scrollTo(target, {
           offset: -headerHeight,
-          duration: 1.2,
+          duration: 1.4,
         });
 
         if (window.history.pushState) {
@@ -143,9 +143,7 @@ export function SmoothScrollProvider({
       lenis.destroy();
       lenisRef.current = null;
       setLenisInstance(null);
-      if (import.meta.env.DEV) {
-        delete (window as unknown as { lenis?: Lenis }).lenis;
-      }
+      delete (window as unknown as { lenis?: Lenis }).lenis;
     };
   }, []);
 
@@ -158,7 +156,7 @@ export function SmoothScrollProvider({
       if (activeLenis) {
         activeLenis.scrollTo(target, {
           offset: options?.offset ?? 0,
-          duration: options?.duration ?? 1.2,
+          duration: options?.duration ?? 1.4,
           immediate: options?.immediate ?? false,
           lock: options?.lock ?? false,
         });

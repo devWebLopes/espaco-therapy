@@ -122,7 +122,7 @@ function Home() {
 
     const id = targetId.replace(/^#/, "");
     if (id === "inicio") {
-      scrollTo(0, { duration: 1.2 });
+      scrollTo(0, { duration: 1.4 });
       if (window.history.pushState) {
         window.history.pushState(null, "", "#inicio");
       }
@@ -137,7 +137,7 @@ function Home() {
 
     scrollTo(element, {
       offset: -headerHeight,
-      duration: 1.2,
+      duration: 1.4,
     });
 
     if (window.history.pushState) {
