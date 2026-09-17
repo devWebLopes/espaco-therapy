@@ -54,6 +54,7 @@
   --font-sans: "DM Sans", Arial, sans-serif;
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
   --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --header-height: 72px;
 }
 
 .dark { --background: #27231f; --foreground: #f5f1ea; }
@@ -61,6 +62,7 @@
 @layer base {
   * { @apply border-border outline-ring/50; }
   html { scroll-behavior: smooth; }
+  [id] { scroll-margin-top: var(--header-height, 72px); }
   body { @apply bg-background text-foreground; margin: 0; font-family: var(--font-sans); font-weight: 400; }
   button:not(:disabled),
   a[href] { cursor: pointer; }
@@ -302,6 +304,7 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
+    html,
     *,
     *::before,
     *::after { scroll-behavior: auto !important; transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
