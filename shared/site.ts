@@ -83,14 +83,13 @@ export const CITY_LABEL = `${ADDRESS.city} · ${ADDRESS.region}`;
  * Contato oficial — **ponto único de atualização** do funil de conversão.
  *
  * `whatsappDigits` é o número confirmado no dossiê de presença pública
- * (10/09/2026) e no site atual (`+55 51 9198-7703`). A confirmação final com a
- * cliente está registrada em `plans/plan-002-melhorias-ux-seo-imagens.md` (R2).
+ * `whatsappDigits` é o número oficial (`+55 51 9197-8703`).
  */
 export const CONTACT = {
-  whatsappDigits: "555191987703",
-  phoneDisplay: "+55 51 9198-7703",
+  whatsappDigits: "555191978703",
+  phoneDisplay: "+55 51 9197-8703",
   /** Formato E.164 aceito pelo schema.org. */
-  telephone: "+555191987703",
+  telephone: "+555191978703",
   whatsappMessage: "Olá, quero agendar um momento no Espaço Therapy.",
   instagramHandle: "@espacotherapy_",
   instagramUrl: "https://www.instagram.com/espacotherapy_/",

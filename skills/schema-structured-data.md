@@ -32,7 +32,7 @@ buscadores e agentes de IA a entender o conteúdo.
       "name": "Espaço Therapy — Estética & Terapias",
       "description": "Espaço de estética e terapias em São Leopoldo/RS: massagens, pedras quentes, Reiki, Pilates, alongamento, mechas, cílios e mãos & pés.",
       "url": "https://SEU-DOMINIO.com.br/",
-      "telephone": "+55 51 9198-7703",
+      "telephone": "+55 51 9197-8703",
       "address": {
         "@type": "PostalAddress",
         "streetAddress": "Rua Pedro Peres, 401",
@@ -44,7 +44,7 @@ buscadores e agentes de IA a entender o conteúdo.
       "contactPoint": {
         "@type": "ContactPoint",
         "contactType": "reservations",
-        "telephone": "+55 51 9198-7703",
+        "telephone": "+55 51 9197-8703",
         "availableLanguage": "pt-BR"
       }
     },
