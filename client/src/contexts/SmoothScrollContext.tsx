@@ -222,10 +222,7 @@ export function SmoothScrollProvider({
   /*  scrollTo — rolagem programática genérica (sem offset do header)        */
   /* ---------------------------------------------------------------------- */
   const scrollTo = useCallback(
-    (
-      target: string | HTMLElement | number,
-      options?: ScrollToOptions
-    ) => {
+    (target: string | HTMLElement | number, options?: ScrollToOptions) => {
       const activeLenis = lenisRef.current;
       if (activeLenis) {
         activeLenis.scrollTo(target, {
@@ -297,9 +294,7 @@ export function SmoothScrollProvider({
       } else {
         // Fallback nativo
         const top =
-          target.getBoundingClientRect().top +
-          window.scrollY -
-          headerHeight;
+          target.getBoundingClientRect().top + window.scrollY - headerHeight;
         window.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
       }
 

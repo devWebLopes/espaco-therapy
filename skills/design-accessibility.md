@@ -1,6 +1,7 @@
 # Skill: Design & Acessibilidade
 
 ## Objetivo
+
 Aplicar o design system e garantir acessibilidade e responsividade.
 
 ## Design system (resumo)

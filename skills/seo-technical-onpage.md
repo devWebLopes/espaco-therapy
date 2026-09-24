@@ -1,6 +1,7 @@
 # Skill: SEO Técnico & On-page
 
 ## Objetivo
+
 Garantir que o site seja rastreável, indexável e bem posicionado, com foco em um
 **negócio local** (Espaço Therapy — São Leopoldo/RS) construído como **React SPA**
 (client-side rendering).
@@ -17,6 +18,7 @@ Garantir que o site seja rastreável, indexável e bem posicionado, com foco em 
 ## Técnico (crawl & index)
 
 ### robots.txt
+
 ```text
 User-agent: *
 Allow: /
@@ -25,16 +27,19 @@ Sitemap: https://SEU-DOMINIO.com.br/sitemap.xml
 ```
 
 ### Sitemap XML
+
 - Listar apenas URLs canônicas e indexáveis.
 - Atualizar `lastmod` quando o conteúdo mudar.
 - Enviar no Google Search Console.
 
 ### Canonical
+
 ```html
 <link rel="canonical" href="https://SEU-DOMINIO.com.br/" />
 ```
 
 ### Meta robots / viewport
+
 ```html
 <meta name="robots" content="index, follow" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -49,6 +54,7 @@ Sitemap: https://SEU-DOMINIO.com.br/sitemap.xml
 - **Idioma:** `<html lang="pt-BR">`.
 
 ## Open Graph / redes sociais
+
 ```html
 <meta property="og:type" content="website" />
 <meta property="og:title" content="Espaço Therapy — Estética & Terapias" />
@@ -77,4 +83,5 @@ Sitemap: https://SEU-DOMINIO.com.br/sitemap.xml
   links quebrados.
 
 ## Ferramentas
+
 Google Search Console · PageSpeed Insights · Rich Results Test · Lighthouse.

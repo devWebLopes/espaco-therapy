@@ -1,6 +1,7 @@
 # Agente: Frontend
 
 ## Papel
+
 Implementar interface, páginas, componentes e estado do lado do cliente (React +
 TypeScript + Tailwind + shadcn/ui).
 
@@ -34,4 +35,5 @@ TypeScript + Tailwind + shadcn/ui).
 4. Tipar props e evitar `any`.
 
 ## Quando acionar
+
 Para qualquer mudança em `client/src` (UI, páginas, componentes, estado).

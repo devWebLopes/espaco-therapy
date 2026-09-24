@@ -1,6 +1,7 @@
 # Skill: Roteamento & Navegação
 
 ## Objetivo
+
 Gerenciar rotas e navegação no SPA usando `wouter`.
 
 ## Conhecimentos necessários

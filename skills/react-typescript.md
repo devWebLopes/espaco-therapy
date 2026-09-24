@@ -1,6 +1,7 @@
 # Skill: React + TypeScript
 
 ## Objetivo
+
 Dominar o desenvolvimento de componentes React com TypeScript no padrão do projeto.
 
 ## Conhecimentos necessários
@@ -25,10 +26,18 @@ interface SectionIntroProps {
   light?: boolean;
 }
 
-function SectionIntro({ eyebrow, title, text, light = false }: SectionIntroProps) {
+function SectionIntro({
+  eyebrow,
+  title,
+  text,
+  light = false,
+}: SectionIntroProps) {
   return (
     <div className={`section-intro ${light ? "section-intro-light" : ""}`}>
-      <p className="eyebrow"><span />{eyebrow}</p>
+      <p className="eyebrow">
+        <span />
+        {eyebrow}
+      </p>
       <h2>{title}</h2>
       {text && <p className="intro-copy">{text}</p>}
     </div>

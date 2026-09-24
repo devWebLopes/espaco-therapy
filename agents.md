@@ -18,26 +18,26 @@ contato (WhatsApp, Instagram e mapa), com foco em identidade visual sofisticada
 
 **Stack consolidada (versões reais do repositório):**
 
-| Camada | Tecnologia |
-|---|---|
-| UI | React 19.2, React DOM 19.2 |
-| Linguagem | TypeScript 5.6 (modo `strict`) |
-| Build | Vite 7, esbuild (bundle do servidor) |
-| Estilo | Tailwind CSS 4.1, `tw-animate-css`, `tailwindcss-animate` |
-| Componentes | shadcn/ui (estilo `new-york`, base `neutral`) + Radix UI |
-| Roteamento | wouter 3.3 (com patch em `patches/`) |
-| Servidor | Express 4.21 (static + SPA fallback) |
-| Formulários | react-hook-form 7.64 + @hookform/resolvers + zod 4 |
-| Dados/HTTP | axios |
-| Animações | framer-motion 12 |
-| Gráficos | recharts 2.15 |
-| Ícones | lucide-react |
-| Toasts | sonner |
-| Tema | next-themes + `ThemeContext` próprio |
-| Markdown | streamdown |
-| Testes | vitest 2.1 |
-| Gerenciador | pnpm 10 |
-| Formatação | prettier 3 |
+| Camada      | Tecnologia                                                |
+| ----------- | --------------------------------------------------------- |
+| UI          | React 19.2, React DOM 19.2                                |
+| Linguagem   | TypeScript 5.6 (modo `strict`)                            |
+| Build       | Vite 7, esbuild (bundle do servidor)                      |
+| Estilo      | Tailwind CSS 4.1, `tw-animate-css`, `tailwindcss-animate` |
+| Componentes | shadcn/ui (estilo `new-york`, base `neutral`) + Radix UI  |
+| Roteamento  | wouter 3.3 (com patch em `patches/`)                      |
+| Servidor    | Express 4.21 (static + SPA fallback)                      |
+| Formulários | react-hook-form 7.64 + @hookform/resolvers + zod 4        |
+| Dados/HTTP  | axios                                                     |
+| Animações   | framer-motion 12                                          |
+| Gráficos    | recharts 2.15                                             |
+| Ícones      | lucide-react                                              |
+| Toasts      | sonner                                                    |
+| Tema        | next-themes + `ThemeContext` próprio                      |
+| Markdown    | streamdown                                                |
+| Testes      | vitest 2.1                                                |
+| Gerenciador | pnpm 10                                                   |
+| Formatação  | prettier 3                                                |
 
 ---
 

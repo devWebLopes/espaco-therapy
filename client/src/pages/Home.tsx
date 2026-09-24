@@ -71,12 +71,14 @@ function Logo({
       onClick={onClick}
       aria-label="Espaço Therapy — início"
     >
-      <span className="logo-mark" aria-hidden="true">
-        <Flower2 size={18} strokeWidth={1.5} />
-      </span>
-      <span className="logo-type">
-        Espaço <em>Therapy</em>
-      </span>
+      <img
+        src="/logo.svg"
+        alt="Espaço Therapy"
+        className="logo-img"
+        width={140}
+        height={102}
+        loading="eager"
+      />
     </a>
   );
 }
@@ -133,28 +135,16 @@ function Home() {
             className={`main-nav ${menuOpen ? "is-open" : ""}`}
             aria-label="Navegação principal"
           >
-            <a
-              href="#servicos"
-              onClick={e => handleNavClick(e, "#servicos")}
-            >
+            <a href="#servicos" onClick={e => handleNavClick(e, "#servicos")}>
               Serviços
             </a>
-            <a
-              href="#ritual"
-              onClick={e => handleNavClick(e, "#ritual")}
-            >
+            <a href="#ritual" onClick={e => handleNavClick(e, "#ritual")}>
               O espaço
             </a>
-            <a
-              href="#equipe"
-              onClick={e => handleNavClick(e, "#equipe")}
-            >
+            <a href="#equipe" onClick={e => handleNavClick(e, "#equipe")}>
               Equipe
             </a>
-            <a
-              href="#contato"
-              onClick={e => handleNavClick(e, "#contato")}
-            >
+            <a href="#contato" onClick={e => handleNavClick(e, "#contato")}>
               Visite
             </a>
             <a
@@ -189,7 +179,7 @@ function Home() {
           <div className="hero-copy">
             <p className="eyebrow hero-eyebrow">
               <span />
-              Estética & terapias · São Leopoldo
+              Um espaço para você
             </p>
             <h1>
               Seu corpo
@@ -201,10 +191,7 @@ function Home() {
               é só seu.
             </p>
             <div className="hero-actions">
-              <a
-                className="button button-dark"
-                href="#servicos"
-              >
+              <a className="button button-dark" href="#servicos">
                 Descobrir o espaço <ArrowDown size={16} aria-hidden="true" />
               </a>
               <a
@@ -244,10 +231,7 @@ function Home() {
         </div>
         <div className="hero-bottom container">
           <span>{ADDRESS_LABEL}</span>
-          <a
-            href="#servicos"
-            aria-label="Rolar para serviços"
-          >
+          <a href="#servicos" aria-label="Rolar para serviços">
             <ChevronRight size={17} aria-hidden="true" />
           </a>
         </div>
@@ -275,10 +259,7 @@ function Home() {
               Entre tratamentos, conversas e pequenos rituais, criamos um lugar
               onde você desacelera sem precisar se explicar.
             </p>
-            <a
-              className="text-link"
-              href="#contato"
-            >
+            <a className="text-link" href="#contato">
               Conheça nosso jeito <ArrowUpRight size={15} aria-hidden="true" />
             </a>
           </div>
@@ -582,7 +563,12 @@ function Home() {
 
       <footer className="site-footer">
         <div className="container footer-inner">
-          <Logo onClick={e => { e.preventDefault(); scrollToAnchor("#inicio"); }} />
+          <Logo
+            onClick={e => {
+              e.preventDefault();
+              scrollToAnchor("#inicio");
+            }}
+          />
           <p>
             Corpo, mente e energia
             <br />

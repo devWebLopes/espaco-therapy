@@ -1,6 +1,7 @@
 # Agente: Backend
 
 ## Papel
+
 Manter e estender o servidor Node/Express, APIs e integrações do lado servidor.
 
 ## Responsabilidades
@@ -28,4 +29,5 @@ Manter e estender o servidor Node/Express, APIs e integrações do lado servidor
 5. Manter servidor enxuto; extrair módulos conforme crescer.
 
 ## Quando acionar
+
 Para mudanças em `server/`, novas APIs, integrações ou configuração de produção.

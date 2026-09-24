@@ -10,7 +10,7 @@
 
 ## 1. Contexto e Objetivo
 
-O **Espaço Therapy** possui navegação interna por âncoras (`#inicio`, `#servicos`, `#ritual`, `#equipe`, `#contato`). O objetivo desta entrega foi aplicar uma rolagem suave (*smooth scroll*), fluida e com compensação do header fixo/sticky através de uma abordagem **CSS-first**, sem acréscimo de bundle JavaScript e em estrita conformidade com as diretrizes de acessibilidade (WCAG 2.2 / `prefers-reduced-motion`).
+O **Espaço Therapy** possui navegação interna por âncoras (`#inicio`, `#servicos`, `#ritual`, `#equipe`, `#contato`). O objetivo desta entrega foi aplicar uma rolagem suave (_smooth scroll_), fluida e com compensação do header fixo/sticky através de uma abordagem **CSS-first**, sem acréscimo de bundle JavaScript e em estrita conformidade com as diretrizes de acessibilidade (WCAG 2.2 / `prefers-reduced-motion`).
 
 ---
 
@@ -31,6 +31,7 @@ O **Espaço Therapy** possui navegação interna por âncoras (`#inicio`, `#serv
 | "Conheça nosso jeito" (manifesto) | `#contato` | `<section id="contato" class="visit">` | `--header-height` |
 
 **Medições do Header:**
+
 - Altura do header: `72px` (`--header-height: 72px`).
 - Comportamento no Mobile: O clique nos itens do menu dispara `closeMenu()` via React e a rolagem suave CSS ocorre na sequência sem conflitos de renderização.
 
@@ -49,6 +50,7 @@ O **Espaço Therapy** possui navegação interna por âncoras (`#inicio`, `#serv
    - `html` explicitamente incluído no reset com `scroll-behavior: auto !important;`.
 
 **Impacto no Bundle:**
+
 - Zero dependências adicionadas.
 - Aumento de tamanho em JS: **0 KB**.
 
@@ -56,26 +58,26 @@ O **Espaço Therapy** possui navegação interna por âncoras (`#inicio`, `#serv
 
 ### 🔍 Agente 3 — QA Engineer (Matriz de Validação)
 
-| Critério de Aceite | Descrição | Status |
-|---|---|---|
-| **AC-01** | Ao clicar em "Serviços" no header, rola suavemente até `#servicos` | ✅ PASS |
-| **AC-02** | Ao clicar em "Descobrir o espaço" (hero CTA), rola até `#servicos` | ✅ PASS |
-| **AC-03** | Ao clicar em "O espaço" no header, rola até `#ritual` | ✅ PASS |
-| **AC-04** | Ao clicar em "Equipe" no header, rola até `#equipe` | ✅ PASS |
-| **AC-05** | Ao clicar em "Visite" no header, rola até `#contato` | ✅ PASS |
-| **AC-06** | Ao clicar no Logo (`href="#inicio"`), rola até o topo | ✅ PASS |
-| **AC-07** | A seção de destino NÃO fica oculta atrás do header (`scroll-margin-top`) | ✅ PASS |
-| **AC-08** | No menu mobile, fecha o menu e executa a rolagem suave | ✅ PASS |
-| **AC-09** | `prefers-reduced-motion: reduce` desativa a animação (scroll instantâneo) | ✅ PASS |
-| **AC-10** | Navegação por teclado (Tab + Enter) executa o scroll suave | ✅ PASS |
-| **AC-11** | Leitores de tela mantêm o anúncio sem interferência de JS invasivo | ✅ PASS |
-| **AC-12** | Score de Acessibilidade mantido sem regressões | ✅ PASS |
-| **AC-13** | Score de Performance mantido | ✅ PASS |
-| **AC-14** | Zero Cumulative Layout Shift (CLS) introduzido | ✅ PASS |
-| **AC-15** | Bundle JS não aumentou | ✅ PASS |
-| **AC-16** | Compatibilidade em Chrome, Firefox, Safari e Edge modernos | ✅ PASS |
-| **AC-17** | Compatibilidade em iOS Safari e Chrome Android | ✅ PASS |
-| **AC-18** | Links externos (WhatsApp, Instagram, Mapa) não são interceptados | ✅ PASS |
+| Critério de Aceite | Descrição                                                                 | Status  |
+| ------------------ | ------------------------------------------------------------------------- | ------- |
+| **AC-01**          | Ao clicar em "Serviços" no header, rola suavemente até `#servicos`        | ✅ PASS |
+| **AC-02**          | Ao clicar em "Descobrir o espaço" (hero CTA), rola até `#servicos`        | ✅ PASS |
+| **AC-03**          | Ao clicar em "O espaço" no header, rola até `#ritual`                     | ✅ PASS |
+| **AC-04**          | Ao clicar em "Equipe" no header, rola até `#equipe`                       | ✅ PASS |
+| **AC-05**          | Ao clicar em "Visite" no header, rola até `#contato`                      | ✅ PASS |
+| **AC-06**          | Ao clicar no Logo (`href="#inicio"`), rola até o topo                     | ✅ PASS |
+| **AC-07**          | A seção de destino NÃO fica oculta atrás do header (`scroll-margin-top`)  | ✅ PASS |
+| **AC-08**          | No menu mobile, fecha o menu e executa a rolagem suave                    | ✅ PASS |
+| **AC-09**          | `prefers-reduced-motion: reduce` desativa a animação (scroll instantâneo) | ✅ PASS |
+| **AC-10**          | Navegação por teclado (Tab + Enter) executa o scroll suave                | ✅ PASS |
+| **AC-11**          | Leitores de tela mantêm o anúncio sem interferência de JS invasivo        | ✅ PASS |
+| **AC-12**          | Score de Acessibilidade mantido sem regressões                            | ✅ PASS |
+| **AC-13**          | Score de Performance mantido                                              | ✅ PASS |
+| **AC-14**          | Zero Cumulative Layout Shift (CLS) introduzido                            | ✅ PASS |
+| **AC-15**          | Bundle JS não aumentou                                                    | ✅ PASS |
+| **AC-16**          | Compatibilidade em Chrome, Firefox, Safari e Edge modernos                | ✅ PASS |
+| **AC-17**          | Compatibilidade em iOS Safari e Chrome Android                            | ✅ PASS |
+| **AC-18**          | Links externos (WhatsApp, Instagram, Mapa) não são interceptados          | ✅ PASS |
 
 ---
 

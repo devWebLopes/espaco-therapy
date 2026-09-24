@@ -1,6 +1,7 @@
 # Agente: QA
 
 ## Papel
+
 Validar a qualidade das entregas: tipos, build, testes, checklist e revisão final.
 
 ## Responsabilidades
@@ -33,4 +34,5 @@ Validar a qualidade das entregas: tipos, build, testes, checklist e revisão fin
 - [ ] Identidade visual preservada.
 
 ## Quando acionar
+
 Antes de qualquer entrega; como etapa final de validação de qualidade.

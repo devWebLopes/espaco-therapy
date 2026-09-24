@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 190" role="img" aria-labelledby="logo-title">
+  <title id="logo-title">Espaço Therapy — Estética e Terapias</title>
+  <defs>
+    <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#e8c87a"/>
+      <stop offset="0.45" stop-color="#c9a24b"/>
+      <stop offset="1" stop-color="#9a7027"/>
+    </linearGradient>
+    <linearGradient id="goldText" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#e9c98a"/>
+      <stop offset="1" stop-color="#c19a4a"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Lótus fiel ao original: 3 pétalas centrais grandes, 2 externas, base em arco -->
+  <g transform="translate(130,92)" fill="url(#gold)">
+    <!-- pétala central (alta, arredondada no topo) -->
+    <path d="M0 -6 C 16 -26 18 -52 0 -78 C -18 -52 -16 -26 0 -6 Z"/>
+    <!-- pétala esquerda interna -->
+    <path d="M-4 -4 C -30 -14 -46 -34 -50 -58 C -30 -50 -12 -28 -4 -4 Z"/>
+    <!-- pétala direita interna -->
+    <path d="M4 -4 C 30 -14 46 -34 50 -58 C 30 -50 12 -28 4 -4 Z"/>
+    <!-- pétala esquerda externa (menor, na ponta) -->
+    <path d="M-8 -2 C -40 -2 -64 -16 -76 -36 C -54 -32 -26 -18 -8 -2 Z"/>
+    <!-- pétala direita externa (menor, na ponta) -->
+    <path d="M8 -2 C 40 -2 64 -16 76 -36 C 54 -32 26 -18 8 -2 Z"/>
+    <!-- base em arco largo -->
+    <path d="M-82 -20 C -50 10 50 10 82 -20 C 52 22 -52 22 -82 -20 Z"/>
+  </g>
+
+  <!-- Nome da marca em itálico serifado dourado -->
+  <text x="130" y="160" text-anchor="middle"
+        font-family="'Cormorant Garamond', Georgia, serif"
+        font-style="italic" font-weight="500" font-size="30"
+        letter-spacing="1" fill="url(#goldText)">Espaço Therapy</text>
+</svg>

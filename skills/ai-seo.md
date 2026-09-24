@@ -1,6 +1,7 @@
 # Skill: AI SEO (AEO / GEO / LLMO)
 
 ## Objetivo
+
 Tornar o conteúdo **citável e extraível** por mecanismos de IA (Google AI Overviews,
 ChatGPT, Perplexity, Gemini, Copilot, Claude).
 

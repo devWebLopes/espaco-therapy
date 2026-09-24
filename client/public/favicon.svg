@@ -5,22 +5,32 @@
   aria-label="Espaço Therapy"
 >
   <rect width="64" height="64" rx="12" fill="#302b27" />
-  <g
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#e8c97a" />
+      <stop offset="50%" stop-color="#d4a84b" />
+      <stop offset="100%" stop-color="#b58a3a" />
+    </linearGradient>
+  </defs>
+  <g fill="url(#g)" opacity="0.95">
+    <!-- Pétala central -->
+    <ellipse cx="32" cy="28" rx="5.5" ry="14" />
+    <!-- Pétalas laterais internas -->
+    <ellipse cx="32" cy="30" rx="5" ry="12" transform="rotate(-28 32 30)" />
+    <ellipse cx="32" cy="30" rx="5" ry="12" transform="rotate(28 32 30)" />
+    <!-- Pétalas laterais externas -->
+    <ellipse cx="32" cy="32" rx="4.5" ry="10" transform="rotate(-52 32 32)" />
+    <ellipse cx="32" cy="32" rx="4.5" ry="10" transform="rotate(52 32 32)" />
+    <!-- Base curvada inferior -->
+    <path d="M19 40 Q26 44 32 42 Q38 44 45 40 Q38 47 32 47 Q26 47 19 40Z" />
+  </g>
+  <!-- Linha de base inferior sutil -->
+  <path
+    d="M20 48 Q26 51 32 51 Q38 51 44 48"
     fill="none"
     stroke="#d9af6b"
-    stroke-width="2.4"
+    stroke-width="1.5"
     stroke-linecap="round"
-    stroke-linejoin="round"
-  >
-    <path
-      d="M32 44c-4.5-4.6-6.8-9.2-6.8-13.8 0-4.6 2.3-8.6 6.8-12 4.5 3.4 6.8 7.4 6.8 12C38.8 34.8 36.5 39.4 32 44Z"
-    />
-    <path
-      d="M32 45c-5.4-.6-9.6-2.4-12.6-5.4-3-3-4.4-6.6-4.2-10.9 4.3-.2 7.9 1.2 10.9 4.2 3 3 4.8 7 5.9 12.1Z"
-    />
-    <path
-      d="M32 45c5.4-.6 9.6-2.4 12.6-5.4 3-3 4.4-6.6 4.2-10.9-4.3-.2-7.9 1.2-10.9 4.2-3 3-4.8 7-5.9 12.1Z"
-    />
-    <path d="M23.5 49.5c2.7 1.7 5.5 2.5 8.5 2.5s5.8-.8 8.5-2.5" />
-  </g>
+    opacity="0.7"
+  />
 </svg>

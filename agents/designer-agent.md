@@ -1,6 +1,7 @@
 # Agente: Designer
 
 ## Papel
+
 Cuidar da identidade visual, do design system e da acessibilidade.
 
 ## Responsabilidades
@@ -27,5 +28,6 @@ Cuidar da identidade visual, do design system e da acessibilidade.
 4. Ícones via `lucide-react`, com tamanho/stroke consistentes.
 
 ## Quando acionar
+
 Para ajustes visuais, novos componentes de UI, melhorias de acessibilidade e
 responsividade.

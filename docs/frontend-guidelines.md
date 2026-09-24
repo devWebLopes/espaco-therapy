@@ -35,12 +35,12 @@ ErrorBoundary
 
 ## 4. Hooks disponíveis
 
-| Hook | Uso |
-|---|---|
-| `useComposition` | Detecção de composição de input (IME) |
-| `useMobile` | Detecção de viewport mobile (breakpoint) |
-| `usePersistFn` | Referência estável de função (evita re-render) |
-| `useTheme` | Acesso/alternância de tema |
+| Hook             | Uso                                            |
+| ---------------- | ---------------------------------------------- |
+| `useComposition` | Detecção de composição de input (IME)          |
+| `useMobile`      | Detecção de viewport mobile (breakpoint)       |
+| `usePersistFn`   | Referência estável de função (evita re-render) |
+| `useTheme`       | Acesso/alternância de tema                     |
 
 ## 5. Formulários
 

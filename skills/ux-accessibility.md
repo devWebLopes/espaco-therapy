@@ -1,6 +1,7 @@
 # Skill: UX & Acessibilidade
 
 ## Objetivo
+
 Garantir usabilidade, conversão e acessibilidade (WCAG AA) na experiência do site.
 
 ## Heurísticas de UX

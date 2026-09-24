@@ -1,15 +1,16 @@
 # Skill: Qualidade & Testes
 
 ## Objetivo
+
 Garantir qualidade via checagem de tipos, formatação, testes e checklist de aceite.
 
 ## Ferramentas e comandos
 
-| Ferramenta | Comando | Função |
-|---|---|---|
-| TypeScript | `pnpm check` | `tsc --noEmit` (strict) |
-| Prettier | `pnpm format` | formatação |
-| Vitest | `pnpm vitest run` | testes |
+| Ferramenta | Comando           | Função                  |
+| ---------- | ----------------- | ----------------------- |
+| TypeScript | `pnpm check`      | `tsc --noEmit` (strict) |
+| Prettier   | `pnpm format`     | formatação              |
+| Vitest     | `pnpm vitest run` | testes                  |
 
 ## Regras
 

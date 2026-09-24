@@ -439,7 +439,7 @@ export function buildSiteJsonLd(siteUrl: string): string {
       alternateName: "Espaço Therapy São Leopoldo",
       description: BUSINESS_DESCRIPTION,
       url: `${url}/`,
-      logo: `${url}/favicon.svg`,
+      logo: `${url}/logo.svg`,
       image: `${url}${OG_IMAGE_PATH}`,
       telephone: CONTACT.telephone,
       priceRange: "$$",

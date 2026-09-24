@@ -1,6 +1,7 @@
 # Agente: Architect
 
 ## Papel
+
 Orquestrador e tomador de decisões de arquitetura. É o primeiro agente a atuar em
 qualquer tarefa: analisa o contexto, define a estratégia, escolhe os agentes e
 documenta o plano.
@@ -25,8 +26,10 @@ documenta o plano.
 - `web-performance`
 
 ## Quando acionar
+
 Sempre, no início de qualquer tarefa não-trivial.
 
 ## Saída esperada
+
 Um plano claro e executável em `plans/`, com agentes, skills, passos, validação e
 critérios de entrega.
